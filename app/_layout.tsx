@@ -5,6 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import { OnboardingProvider } from '@/contexts/OnboardingContext';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -29,11 +30,14 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
+      <OnboardingProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="(tabs)/onboarding" options={{ headerShown: false }} />
+        </Stack>
+        <StatusBar style="auto" />
+      </OnboardingProvider>
     </ThemeProvider>
   );
 }
